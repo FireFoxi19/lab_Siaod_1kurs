@@ -1,0 +1,99 @@
+//лаба 10.
+#include <time.h>
+#include <cmath>
+#include <iostream>
+
+using namespace std;
+
+int C = 0, M = 0;
+void fillRand(int *a, int n) {
+  for (int i = 0; i < n; i++) {
+    a[i] = rand() % n;
+  }
+}
+
+void fillInc(int *a, int n) {
+  for (int i = 0; i < n; i++) {
+    a[i] = i + 1;
+  }
+}
+
+void fillDec(int *a, int n) {
+  int j = 0;
+  for (int i = n - 1; i >= 0; i--) {
+    a[j] = i + 1;
+    j++;
+  }
+}
+
+int quickSort(int *a, int n, int L, int R) {
+  int Res = 0;
+  int i = L;
+  int j = R;
+  int x = a[(L + R) / 2];
+  C++;
+  while (i <= j) {
+    C++;
+    while (a[i] < x) {
+      C++;
+      i++;
+    }
+    C++;
+    while (a[j] > x) {
+      C++;
+      j--;
+    }
+    if (i <= j) {
+      M += 3;
+      int temp = a[i];
+      a[i] = a[j];
+      a[j] = temp;
+      i++;
+      j--;
+    }
+  }
+  if (j > L) {
+    quickSort(a, n, L, j);
+  }
+  if (i < R) {
+    quickSort(a, n, i, R);
+  }
+  Res = M + C;
+  return Res;
+}
+
+int main() {
+  srand(time(NULL));
+  const int size_count = 5;
+  int b[size_count], c[size_count], d[size_count], e[size_count];
+  int n = 0, k;
+
+  cout << " n  \t\t"
+       << "    QuickSort(Res)" << endl;
+  cout << "\t\t Inc\tDec  \tRand\tTeop" << endl;
+
+  for (int n = 100, k = 0; k < 5; k++, n += 100) {
+    srand(time(NULL));
+    int *a = new int[n];
+    M = 0;
+    C = 0;
+    fillRand(a, n);
+    b[k] = quickSort(a, n, 1, n);
+    M = 0;
+    C = 0;
+    fillInc(a, n);
+    c[k] = quickSort(a, n, 1, n);
+    M = 0;
+    C = 0;
+    fillDec(a, n);
+    d[k] = quickSort(a, n, 1, n);
+    M = 0;
+    C = 0;
+    e[k] = 3 * (n - 1) + (pow(n, 2) + 5 * n + 4) / 2;
+    delete[] a;
+  }
+  for (int i = 0, n = 100; i < 5; n += 100, i++) {
+    cout << n << "\t  \t" << c[i] << "\t" << d[i] << "\t" << b[i] << "\t"
+         << e[i] << endl;
+  }
+}

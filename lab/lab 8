@@ -1,0 +1,176 @@
+//лаба 8.
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <random>
+#include <vector>
+int C = 0;
+
+using namespace std;
+struct Phone {
+  string first_name;
+  string second_name;
+  string number;
+  string adress;
+};
+
+bool BSearch_by_second_name(Phone mas[], int index_mas[], int n, string key) {
+  C = 0;
+  int l = 0;
+  int r = n;
+  while (l < r) {
+    int m = (int)((l + r) / 2);
+    C++;
+    if (mas[index_mas[m]].second_name < key)
+      l = m + 1;
+    else
+      r = m;
+  }
+  C++;
+  if (mas[index_mas[r]].second_name == key)
+    return index_mas[r];
+  else
+    return -1;
+}
+
+int BSearch_by_number(Phone mas[], int index_mas[], int n, string key) {
+  C = 0;
+  int l = 0;
+  int r = n;
+  while (l < r) {
+    int m = (int)((l + r) / 2);
+    C++;
+    if (mas[index_mas[m]].number < key)
+      l = m + 1;
+    else
+      r = m;
+  }
+  C++;
+  if (mas[index_mas[r]].number == key)
+    return index_mas[r];
+  else
+    return -1;
+}
+
+string generate_random_number() {
+  int size = 10;
+  string number;
+  for (int i = 0; i < size; i++) {
+    number += to_string(rand() % 10);
+  }
+  return number;
+}
+string generate_random_string() {
+  int string_size = 10;
+  string str_new;
+  for (int i = 0; i < string_size; i++) {
+    char symbol = (rand() % 26 + 'a');
+    str_new += symbol;
+  }
+  return str_new;
+}
+
+Phone* generate_array(int size) {
+  Phone* new_array = new Phone[size];
+  for (int i = 0; i < size; i++) {
+    Phone tmp;
+    tmp.first_name = generate_random_string();
+    tmp.second_name = generate_random_string();
+    tmp.number = generate_random_number();
+    tmp.adress = generate_random_string();
+    new_array[i] = tmp;
+  }
+  return new_array;
+}
+
+int* sort_by_second_name(Phone mas[], int n) {
+  int buff;
+  int control = n;
+  int left = 0;
+  int right = n - 1;
+
+  int* indexes = new int[n];
+  for (int i = 0; i < n; i++) indexes[i] = i;
+
+  do {
+    for (int i = right; i > left; i--) {
+      if (mas[indexes[i]].second_name < mas[indexes[i - 1]].second_name) {
+        swap(indexes[i], indexes[i - 1]);
+        control = indexes[i];
+      }
+    }
+    left = control;
+    for (int i = left; i < right; i++) {
+      if (mas[indexes[i]].second_name > mas[indexes[i + 1]].second_name) {
+        swap(indexes[i], indexes[i + 1]);
+        control = indexes[i];
+      }
+    }
+    right = control;
+
+  } while (left < right);
+  return indexes;
+}
+
+int* sort_by_number(Phone mas[], int n) {
+  int buff;
+  int control = n;
+  int left = 0;
+  int right = n - 1;
+  int* indexes = new int[n];
+  for (int i = 0; i < n; i++) indexes[i] = i;
+
+  do {
+    for (int i = right; i > left; i--) {
+      if (mas[indexes[i]].number < mas[indexes[i - 1]].number) {
+        swap(indexes[i], indexes[i - 1]);
+        control = indexes[i];
+      }
+    }
+    left = control;
+    for (int i = left; i < right; i++) {
+      if (mas[indexes[i]].number > mas[indexes[i + 1]].number) {
+        swap(indexes[i], indexes[i + 1]);
+        control = indexes[i];
+      }
+    }
+    right = control;
+
+  } while (left < right);
+  return indexes;
+}
+
+void print_data(Phone phone) {
+  cout << phone.first_name << " " << phone.second_name << " " << phone.number
+       << " " << phone.adress << endl;
+}
+
+int main() {
+  int n = 5;
+  Phone* ar = generate_array(n);
+  cout << "NAME     SECOND NAME  PHONE NUMBER   ADRESS" << endl;
+  for (int i = 0; i < n; i++) print_data(ar[i]);  //Вывод исходного массива
+  cout << endl << endl << endl;
+
+  cout << "NAME     SECOND NAME  PHONE NUMBER   ADRESS" << endl;
+  int* new_order1 = sort_by_number(ar, n);
+  for (int i = 0; i < n; i++)
+    print_data(ar[new_order1[i]]);  //Отсортирован по номеру
+  cout << endl << endl << endl;
+
+  cout << "NAME     SECOND NAME  PHONE NUMBER   ADRESS" << endl;
+  int* new_order2 = sort_by_second_name(ar, n);  //Отсортирован по фамилии
+  for (int i = 0; i < n; i++) print_data(ar[new_order2[i]]);
+  cout << endl << endl << endl;
+
+  cout << "NAME     SECOND NAME  PHONE NUMBER   ADRESS" << endl;
+  for (int i = 0; i < n; i++) print_data(ar[i]);  //Вывод исходного массива
+
+  string input;
+  cout << "Search by number" << endl;
+  cin >> input;
+  cout << BSearch_by_number(ar, new_order1, n, input) << " " << C << endl;
+  cout << "Search by second name" << endl;
+  cin >> input;
+  cout << BSearch_by_second_name(ar, new_order2, n, input) << " " << C << endl;
+}

@@ -1,0 +1,187 @@
+//лаба 3.
+
+#include <stdlib.h>
+#include <iostream>
+
+const int n = 10;
+int A[n];
+int a = 0;
+int b = n;
+
+int C = 0, M = 0;
+int random(int n) { return rand() % n; }
+
+void Fillinc(int A[], int n)  // возрастающая сортировка
+{
+  for (int i = 0; i < n; i++) A[i] += i;
+}
+
+void FillDec(int A[], int n)  // убывающая сортировка
+{
+  for (int i = 0; n > 0; i++, n--) A[i] = n - 1;
+}
+
+void PrintMas(int A[], int n) {
+  for (int i = 0; i < n; i++) printf("%d; ", A[i]);
+}
+
+void FillRand(int A[], int n) {
+  for (int i = 0; i < n; i++) A[i] = random(b - a + 1) + a;
+}
+
+int CheckSum(int A[], int n) {
+  int sum = 0;
+  for (int i = 0; i < n; i++) sum = sum + A[i];
+
+  return sum;
+}
+
+int RunNumber(int A[], int n)  // случайная сортировка
+{
+  int k = 0;
+  for (int i = 0; i < n; i++) {
+    if (A[i] > A[i + 1]) k += 1;
+  }
+  return k;
+}
+
+void Puzirek(int A[], int n) {
+  int buf = 0;
+  for (int i = 1; i < n - 1; i++) {
+    for (int j = (n - 1); j > i; j--) {
+      C++;  // кол-во сравнений
+      if (A[j - 1] > A[j]) {
+        buf = A[j - 1];
+        A[j - 1] = A[j];
+        A[j] = buf;
+        M++;  // кол-во пересылок
+      }
+    }
+  }
+}
+
+void BubbleSort(int A[], int n) {
+  M = 0;
+  C = 0;
+  for (int i = 0; i < n - 1; i++) {
+    for (int j = n - 1; j > i; j--) {
+      C++;
+      if (A[j] < A[j - 1]) {
+        int t = A[j];
+        A[j] = A[j - 1];
+        A[j - 1] = t;
+        M += 3;
+      }
+    }
+  }
+}
+
+int main() {
+  setlocale(LC_ALL, "Russian");
+  FillRand(A, n);
+  printf("\n");
+  PrintMas(A, n);
+  printf("\n");
+  BubbleSort(A, n);
+  PrintMas(A, n);
+  printf("\n\nCT = %d  VS  CR = %d", (n * n - n) / 2,
+         C);  //теоритические сравнения
+  printf("\nMT = %d  VS  MR = %d\n", 3 * (n * n - 1) / 4,
+         M);  // теоритические перестановки
+
+  printf("________________________________________\n");
+  printf("|       |       |                       |\n");
+  printf("|       |       |        MR+CR          |\n");
+  printf("|   n   | MT+CT |_______________________|\n");
+  printf("|       |       |       |       |       |\n");
+  printf("|       |       | Убыв  | Случ  | Возр  |\n");
+  printf("|_______|_______|_______|_______|_______|\n");
+  printf("|       |       |       |       |       |\n");
+
+  int N = 100;
+  int A100[N];
+  int SUM = (3 * (N * N - N) / 2 + (N * N - N) / 2);  // трудоемкость массива
+  FillDec(A100, N);
+  BubbleSort(A100, N);
+  int SUM1 = C + M;
+  FillRand(A100, N);
+  BubbleSort(A100, N);
+  int SUM2 = C + M;
+  Fillinc(A100, N);
+  BubbleSort(A100, N);
+  int SUM3 = C + M;
+
+  printf("|  100  | %d | %d | %d | %d  |\n", SUM, SUM1, SUM2, SUM3);
+  printf("|_______|_______|_______|_______|_______|\n");
+  printf("|       |       |       |       |       |\n");
+
+  N = 200;
+  int A200[N];
+  SUM = (3 * (N * N - N) / 2 + (N * N - N) / 2);
+  FillDec(A200, N);
+  BubbleSort(A200, N);
+  SUM1 = C + M;
+  FillRand(A200, N);
+  BubbleSort(A200, N);
+  SUM2 = C + M;
+  Fillinc(A200, N);
+  BubbleSort(A200, N);
+  SUM3 = C + M;
+
+  printf("|  200  | %d | %d | %d | %d |\n", SUM, SUM1, SUM2, SUM3);
+  printf("|_______|_______|_______|_______|_______|\n");
+  printf("|       |       |       |       |       |\n");
+
+  N = 300;
+  int A300[N];
+  SUM = (3 * (N * N - N) / 2 + (N * N - N) / 2);
+  FillDec(A300, N);
+  BubbleSort(A300, N);
+  SUM1 = C + M;
+  FillRand(A300, N);
+  BubbleSort(A300, N);
+  SUM2 = C + M;
+  Fillinc(A300, N);
+  BubbleSort(A300, N);
+  SUM3 = C + M;
+
+  printf("|  300  |%d |%d |%d | %d |\n", SUM, SUM1, SUM2, SUM3);
+  printf("|_______|_______|_______|_______|_______|\n");
+  printf("|       |       |       |       |       |\n");
+
+  N = 400;
+  int A400[N];
+  SUM = (3 * (N * N - N) / 2 + (N * N - N) / 2);
+  FillDec(A400, N);
+  BubbleSort(A400, N);
+  SUM1 = C + M;
+  FillRand(A400, N);
+  BubbleSort(A400, N);
+  SUM2 = C + M;
+  Fillinc(A400, N);
+  BubbleSort(A400, N);
+  SUM3 = C + M;
+
+  printf("|  400  |%d |%d |%d | %d |\n", SUM, SUM1, SUM2, SUM3);
+  printf("|_______|_______|_______|_______|_______|\n");
+  printf("|       |       |       |       |       |\n");
+
+  N = 500;
+  int A500[N];
+  SUM = (3 * (N * N - N) / 2 + (N * N - N) / 2);
+  FillDec(A500, N);
+  BubbleSort(A500, N);
+  SUM1 = C + M;
+  FillRand(A500, N);
+  BubbleSort(A500, N);
+  SUM2 = C + M;
+  Fillinc(A500, N);
+  BubbleSort(A500, N);
+  SUM3 = C + M;
+
+  printf("|  500  |%d |%d |%d |%d |\n", SUM, SUM1, SUM2, SUM3);
+  printf("|_______|_______|_______|_______|_______|\n");
+
+	
+	
+}
