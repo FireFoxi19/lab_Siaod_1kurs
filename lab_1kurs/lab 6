@@ -1,0 +1,97 @@
+//лаба 6.
+#include <cmath>
+#include <cstdlib>
+#include <iostream>
+/*
+1). Разработать процедуру сортировки массива целых чисел методом Шелла
+(ShellSort). 2). Предусмотреть подсчет фактического количества пересылок и
+сравнений (Мф и Сф), сравнить с теоретическими оценками М и С. 5). Исследовать
+метод Шелла для n=100. 200, …500 на массивах случайных чисел и сравнить с
+методом прямого включения. Определить трудоемкость и количество  К-сортировок по
+формуле Кнута. Построить таблицу вида:
+*/
+using namespace std;
+int C, M;
+void InsertionSort(int mas[], int n) {
+  C = 0;
+  M = 0;
+  int i, key, j;
+  for (i = 1; i < n; i++) {
+    key = mas[i];
+    M++;
+    j = i - 1;
+
+    while (j >= 0 && mas[j] > key) {
+      C++;
+      mas[j + 1] = mas[j];
+      j = j - 1;
+    }
+    mas[j + 1] = key;
+    M++;
+  }
+}
+
+void ShellSort(int mas[], int n) {
+  C = 0;
+  M = 0;
+  int m = trunc(log2(n)) - 1;
+
+  int h[m + 1];
+  h[1] = 1;
+  cout << h[1] << ' ';
+
+  for (int i = 2; i < m + 1; i++) {
+    h[i] = 2 * h[i - 1] + 1;
+    cout << h[i] << ' ';
+  }
+  cout << endl;
+
+  for (; h[m] > 0; m--) {
+    int k = h[m];
+    for (int i = k; i <= n; i++) {
+      int t = mas[i];
+
+      int j = i - k;
+      while ((j >= 0) && (t < mas[j])) {
+        C++;
+
+        M++;
+        mas[j + k] = mas[j];
+        j = j - k;
+      }
+      M++;
+      mas[j + k] = t;
+    }
+  }
+}
+
+void fill_array(int mas[], int n)  //заполнение массива
+{
+  for (int i = 0; i < n; i++) mas[i] = rand() % 100;
+}
+
+void print_array(int mas[], int n)  // вывод массива
+{
+  for (int i = 0; i < n; i++) cout << mas[i] << " ";
+  cout << endl;
+}
+
+using namespace std;
+int main() {
+  cout << "n        k      Insert	   Shell" << endl;
+  for (int n = 100; n <= 500; n += 100) {
+    int* mas = new int[n];  //объявление динамического массива
+    fill_array(mas, n);  // сортировка прямого включения
+    InsertionSort(mas, n);  // отсортированный массив методом прямого включения
+
+    int CM1 = C + M;  // отсортированный массив методом Шелла
+    fill_array(mas, n);
+    ShellSort(mas, n);
+
+    int CM2 = C + M;
+    printf("%3d    %3d    %5d       %5d \n", n, (int)floor(log2(n)) - 1, CM1,
+           CM2);
+    delete[] mas;
+    mas = NULL;  // очищение памяти
+  }
+}
