@@ -1,0 +1,63 @@
+#include <locale.h>
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+
+typedef struct  // структура с новыми типами данных из уже существующих
+{
+  char name[10];  // название школы
+  int vip;        // выпуск
+  int vuz;        // поступившие
+  float pr;       // процент
+} school;
+
+void IndexSort(school A[], int n, int* B) {
+  int i, j, t = 0;
+  for (i = 0; i < n; i++) {
+    B[i] = i;
+  }
+  for (i = 0; i < n - 1; i++) {
+    for (j = i + 1; j < n; ++j) {
+      if (A[B[i]].pr < A[B[j]].pr) {
+        t = B[i];
+        B[i] = B[j];
+        B[j] = t;  // Присвоение j-му элементу массива структуры t целиком
+      }
+    }
+  }
+}
+
+int main() {
+  setlocale(LC_ALL, "rus");
+  int i, j, t, n;
+
+  std::cout << "Введите кол-во школ: " << std::endl;
+  std::cin >> n;
+
+  school* A = new school[n];
+  int* B = new int[n];
+
+  for (i = 0; i < n; i++) {
+    std::cout << "Введите название школы: ";
+    std::cin >> A[i].name;
+    std::cout << "Введите кол-во выпускников:";
+    std::cin >> A[i].vip;
+    std::cout << "Введите кол-во поступивших:";
+    std::cin >> A[i].vuz;
+  }
+
+  for (i = 0; i < n; i++) {
+    A[i].pr =
+        100 / ((float)A[i].vip /
+               (float)A[i].vuz);  // A[i].vip обращение к полю элемента массива
+  }
+
+  IndexSort(A, n, B);
+
+  for (i = 0; i < n; i++)
+    std::cout << "Название:" << A[B[i]].name
+              << " Кол-во выпускников:" << A[B[i]].vip
+              << " Процент поступивших:  " << A[B[i]].pr << " \n";
+
+  return 0;
+}

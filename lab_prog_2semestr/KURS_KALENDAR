@@ -1,0 +1,72 @@
+#include <fstream>
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <time.h>
+using namespace std;
+
+int main() {
+  setlocale(LC_ALL, "Russian");
+
+  ofstream fout;
+  fout.open("Календарь.txt");
+
+  time_t now;
+  struct tm *timeinfo;
+  int year, m, i, j;
+  string month[] = {"Январь",   "Февраль", "Март‚",  "Апрель",
+                    "Май",      "Июнь",    "Июль",   "Август",
+                    "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
+
+  printf("Введите год: ");
+  scanf("%d", &year);
+  time(&now);
+  timeinfo = localtime(&now);
+  timeinfo->tm_year = year - 1900;
+  timeinfo->tm_mon = 0;
+
+  m = -1;
+  while (m < 12) {
+    for (i = 1; i < 33; i++) {
+      timeinfo->tm_mday = i;
+      mktime(timeinfo);
+
+      if (timeinfo->tm_mon > m) {
+
+        cout << "\n__________________________" << month[timeinfo->tm_mon]
+             << "__________________________\n";
+        fout << "\n__________________________" << month[timeinfo->tm_mon]
+             << "__________________________\n";
+        printf("\n");
+        fout << "\n";
+        printf("Вс\tПн\tВт\tСр\tЧт\tПт\tСб\n");
+        fout << "Вс\tПн\tВт\tСр\tЧт\tПт\tСб\n";
+        printf("\n");
+        fout << "\n";
+        for (j = 0; j < (timeinfo->tm_wday); j++) {
+          printf("\t");
+          fout << "\t";
+        }
+
+        m++;
+        break;
+      }
+      if (m == 11 && timeinfo->tm_mon == 0) {
+        m++;
+        break;
+      }
+
+      printf("%d\t", timeinfo->tm_mday);
+      fout << timeinfo->tm_mday << "\t";
+
+      if (timeinfo->tm_wday == 6) {
+        printf("\n");
+        fout << "\n";
+      }
+    }
+  }
+  fout.close();
+  getchar();
+  getchar();
+  return 0;
+}

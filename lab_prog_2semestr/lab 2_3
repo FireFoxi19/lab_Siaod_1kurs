@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <iostream>
+
+/*
+3. Написать рекурсивную функцию для перевода числа из десятичной системы
+счисления в двоичную.
+*/
+void Print(unsigned a) {
+  if (a) {
+    Print(a >> 1);
+    std::cout << (a & 1);
+  }
+}
+int main()
+{
+   unsigned a;
+   std::cin >> a;
+   Print(a);
+   return 0;
+}

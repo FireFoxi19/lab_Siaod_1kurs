@@ -1,0 +1,28 @@
+#include <Windows.h>
+#include <stdlib.h>
+#include <iostream>
+
+int main() {
+  using namespace std;
+  SetConsoleCP(1251);
+  SetConsoleOutputCP(1251);
+  int n;
+  cout << "Введите число: ";
+  cin >> n;
+  int* a = new int[n + 1];
+  for (int i = 0; i < n + 1; i++)  //заполняем массив числами для решета
+    a[i] = i;
+  cout << " Ответ: ";
+  for (int p = 2; p < n + 1;
+       p++)  // начало работы решета т.е происходит фильтрация
+  {
+    if (a[p] != 0)  // начало поиска сложных чисел от (a[p] != 0)
+    {
+      cout << a[p] << ' ';  // выводим не обнуленные-простые
+      for (int j = p * p; j < n + 1; j += p)
+        a[j] = 0;  // обнуляем их ячейки чтобы не проверять их в цикле
+    }
+  }
+  delete[] a;
+
+}

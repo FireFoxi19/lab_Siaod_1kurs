@@ -1,0 +1,52 @@
+#include <Windows.h>
+#include <stdlib.h>
+#include <time.h>
+#include <iostream>
+// 2. Написать функцию, которая вычисляет для двумерного массива с переменной
+// длинной строк (длина строк случайна в диапазоне от 2 до 10) сумму элементов
+//каждой строки. Длина каждой строки хранится в 0 элементе соответствующей
+//строки. Массив сформировать с помощью случайных чисел, и вывести на экран в
+//главной программе.
+
+void SumRown(int**, int);  //указатели
+int main() {
+  srand(time(NULL));
+  using namespace std;
+  SetConsoleCP(1251);
+  SetConsoleOutputCP(1251);
+  int rw, cl;
+  cin >> rw;
+  int** mas = new int*[rw];  //указатель на массив из rw
+  for (int i = 0; i < rw; i++) {
+    cl = 2 + rand() % 8;
+    mas[i] = new int[cl];
+    mas[i][0] = cl;
+  }
+  for (int i = 0; i < rw; i++) {
+    for (int j = 1; j < mas[i][0]; j++) {
+      mas[i][j] = rand() % 10;
+    }
+  }
+  for (int i = 0; i < rw; i++) {
+    for (int j = 0; j < mas[i][0]; j++) {
+      cout.width(2);  // ширина
+      cout << mas[i][j] << ' ';
+    }
+    cout << endl;
+  }
+  cout << endl;
+  SumRown(mas, rw);
+}
+
+void SumRown(int** a, int r) // указатель на массив указателей
+{
+    for (int i = 0; i < r; i++)
+    {
+        int s = 0;
+        for (int j = 0; j < a[i][0]; j++)
+        {
+            s += a[i][j]; // сумма элементов строки
+        }
+       std::cout << s << std::endl;
+    }
+}

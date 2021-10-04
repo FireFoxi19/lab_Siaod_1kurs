@@ -1,0 +1,62 @@
+#include <locale.h>
+#include <stdlib.h>
+#include <string.h>
+#include <cmath>
+#include <iostream>
+
+using namespace std;
+int random(int N) { return rand() % N; }
+
+int main() {
+  setlocale(LC_ALL, "Rus");
+  int A = -50, B = 50;
+  int p;  // размер массива
+  cout << "Размер массива: ";
+  cin >> p;
+  int* b;
+  b = (int*)malloc(p * sizeof(int));  // выделение памяти int под массив p
+  int m = 0, k = 0;
+  for (int i = 0; i < p; i++) {
+    b[i] = random(B - A + 1) + A;
+  }
+  int x = 0, z = 0;
+  for (int i = 0; i < p; i++) {
+    if (b[i] >= 0)
+      z++;
+    else
+      x++;
+  }
+  int* c;  //указатель на целое с
+  c = (int*)malloc(z * sizeof(int));
+
+  int* d;  // указатель на целое d
+  d = (int*)malloc(x * sizeof(int));
+
+  int r = 0, f = 0;  //переменные которые
+  for (int i = 0; i < p; i++) {
+    if (b[i] >= 0) {
+      c[r] = b[i];
+      r++;
+    } else {
+      d[f] = b[i];
+      f++;
+    }
+  }
+  cout << "изначальный массив: ";
+  for (int i = 0; i < p; i++) {
+    cout << b[i] << ' ';
+  }
+  cout << endl;
+  cout << "массив положительных чисел: ";
+  for (int i = 0; i < z; i++) {
+    cout << c[i] << ' ';
+  }
+  cout << endl;
+  cout << "массив отрицательных чисел: ";
+  for (int i = 0; i < x; i++) {
+    cout << d[i] << ' ';
+  }
+  free(b);  //Функция, которая освобождает выделенную по адресу b память.
+  free(c);  //Функция, которая освобождает выделенную по адресу c память.
+  free(d);  //Функция, которая освобождает выделенную по адресу d память. 
+}

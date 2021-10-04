@@ -1,0 +1,22 @@
+#include <fstream>
+#include <iostream>
+
+using namespace std;
+int main() {
+  string str;
+  ifstream fin; // буфер под файл который читаем
+  ofstream fout("input.txt"); // буфер под файл, в который записываем
+  fin.open("output.txt"); // открываем файл
+  while (!fin.eof())      // пока в файле нет 0 элементов
+  {
+    getline(fin, str); // считаваем строку
+    for (int i = (str.length() - 1); i >= 0;
+         i--) // вывод каждого символа по убыванию
+    {
+      fout << str[i];
+    }
+    fout << endl;
+  }
+  fin.close(); // закрытие файлов
+  fout.close();
+}

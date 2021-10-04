@@ -1,0 +1,44 @@
+#include <locale.h>
+#include <stdlib.h>
+#include <string.h>
+#include <cmath>
+#include <iostream>
+using namespace std;
+int random(int N) { return rand() % N; }
+
+int main() {
+  setlocale(LC_ALL, "Rus");
+  int A = -50, B = 50;
+  int p;
+  cout << "Введите размер массива: ";
+  cin >> p;
+  float* a = new float[p];
+  for (int i = 0; i < p; i++) {
+    a[i] = (float)rand() * (B - A) / RAND_MAX + A;
+  }
+  cout << "Изначальный массив: ";
+  for (int i = 0; i < p; i++) {
+    cout.setf(ios::fixed);
+    cout.precision(2);
+    cout << a[i] << ' ';
+  }
+  float** b = new float*[p];
+  for (int i = 0; i < p; i++) {
+    b[i] = &a[i];
+  }
+  float* c = 0;
+  for (int i = 0; i < p - 1; i++)
+    for (int j = p - 2; j >= i; j--)
+      if (*b[j] < *b[j + 1]) {
+        c = b[j];
+        b[j] = b[j + 1];
+        b[j + 1] = c;
+      }
+  cout << endl;
+  cout << "Измененный массив: ";
+  for (int i = 0; i < p; i++) {
+    cout << *b[i] << ' ';
+  }
+  delete[] a;
+  delete[] b;
+}

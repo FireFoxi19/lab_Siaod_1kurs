@@ -1,0 +1,85 @@
+#include <Windows.h>
+#include <stdlib.h>
+#include <time.h>
+#include <iostream>
+
+void Sort(int* a, int size);
+void perebor(int* a, int size, int el);
+void Binary(int* a, int size, int el);
+int main() {
+  //    srand(time(NULL));
+  const int N = 100;
+  const int C = 1000;
+  using namespace std;
+  SetConsoleCP(1251);
+  SetConsoleOutputCP(1251);
+  int a[N], b[C];
+  for (int i = 0; i < N; i++) {
+    a[i] = rand() % N;
+  }
+  for (int i = 0; i < C; i++) {
+    b[i] = rand() % C;
+  }
+  Sort(a, N);
+  Sort(b, C);
+
+  int el = 11;
+  perebor(a, N, el);
+  Binary(a, N, el);
+  cout << endl << endl;
+  int elem = 256;
+  perebor(b, C, elem);
+  Binary(b, C, elem);
+}
+
+void Sort(int* a, int size) {
+  for (int i = 0; i < size - 1; i++) {
+    for (int j = size - 2; j >= i; j--) {
+      if (a[j] < a[j + 1]) {
+        int c = a[j + 1];
+        a[j + 1] = a[j];
+        a[j] = c;
+      }
+    }
+  }
+}
+
+void perebor(int* a, int size, int el) {
+  int num = -1;
+  std::cout << "метод перебора:" << std::endl;
+  for (int i = 0; i < size; i++) {
+    if (a[i] == el) {
+      num = i;
+      break;
+    }
+  }
+  if (num == -1)
+    std::cout << "элемент не найден" << std::endl;
+  else
+    std::cout << "элемент найден. количество итераций: " << num << std::endl;
+}
+
+void Binary(int* a, int size, int el) {
+  int l = 0;
+  int r = size - 1;
+  int num = -1;
+  int iter = 0;
+  std::cout << "бинарный метод поиска:" << std::endl;
+  while (l <= r) {
+    int m = (l + r) / 2;
+    iter++;  // кол-во итераций
+    if (el == a[m]) {
+      num = m;
+      break;
+    }
+    if (el > a[m])
+      r = m - 1;
+    else
+      l = m + 1;
+  }
+  if (num == -1)
+    std::cout << "элемент не найден";
+  else {
+    std::cout << "элемент найден. количесвто итераций: " << iter << std::endl;
+  }
+}

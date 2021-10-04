@@ -1,0 +1,42 @@
+// Вычисление cosinus с помощью ряда Тейлора  cosinus(x) =1 - x2/2! + x4/4! … +
+// ((-1)n *x2n)/(2n!)  с точностью до eps=0.0001.
+
+#include <math.h>
+#include <iostream>
+
+using namespace std;
+
+double f(
+    double x,
+    int n)  //функция f для работы с x вещественными числами в целой степени n
+{
+  int m = fabs(n);
+  double y = 1.0;
+  for (int i = 1; i <= m; i++) y *= x;
+  if (n < 0) y = 1.0 / y;
+  return y;
+}
+
+double cosinus(double x) {
+  double n = 1.0;
+  double sum = 0.0;
+  int i = 1;
+
+  do {
+    sum += n;  // счетчик суммы вычислений
+    n *= -1.0 * f(x, 2) / ((2 * i - 1) * (2 * i));
+    i++;
+  } while (fabs(n) > 0.0001);  // fabs вычисляет абсолютное значение (модуль)
+
+  return sum;
+}
+
+int main() {
+  setlocale(LC_ALL, "Russian");
+  double x;
+  cout << "Введите x = ";
+  cin >> x;
+  cout << "Ряд тейлора: cos(x)=" << cosinus(x) << endl;
+  cout << "Функция: cos(x)" << cos(x) << endl;
+  system("pause");
+}

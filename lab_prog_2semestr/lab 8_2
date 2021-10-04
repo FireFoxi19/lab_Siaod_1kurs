@@ -1,0 +1,69 @@
+#include <Windows.h>
+#include <stdlib.h>
+#include <time.h>
+#include <iostream>
+#include <string>
+#include <vector>
+
+struct Dormitory {
+  int room_num;
+  int area_room;
+  std::string faculty;
+  int num_of_rec;
+};
+struct Room {
+  std::string fac;
+  int students;
+  double area_for_one;
+};
+
+int main() {
+  srand(time(0));
+  using namespace std;
+  SetConsoleCP(1251);
+  SetConsoleOutputCP(1251);
+  int n;
+  cin >> n;
+  vector<string> fac;
+  Dormitory* SibSuits = new Dormitory[n];
+  cout << "Введите номер комнаты, площадь комнаты, факультет, кол-во "
+          "проживающих в комнате:"
+       << endl;
+  for (int i = 0; i < n; i++) {
+    cin >> SibSuits[i].room_num >>
+        SibSuits[i].area_room  //Обращение к полю элемента массива
+        >> SibSuits[i].faculty >> SibSuits[i].num_of_rec;
+  }
+  for (int i = 0; i < n; i++) {
+    bool f = 0;
+    for (int j = 0; j < fac.size(); j++) {
+      if (SibSuits[i].faculty == fac[j]) f = 1;
+    }
+    if (f == 0) {
+      fac.push_back(SibSuits[i].faculty);
+    }
+  }
+  Room* S = new Room[fac.size()];
+  for (int i = 0; i < fac.size(); i++) {
+    S[i].fac = fac[i];
+  }
+  for (int i = 0; i < fac.size(); i++) {
+    S[i].students = 0;
+    S[i].area_for_one = 0;
+    for (int j = 0; j < n; j++) {
+      if (S[i].fac == SibSuits[j].faculty) {
+        S[i].students += SibSuits[j].num_of_rec;
+        S[i].area_for_one += SibSuits[j].area_room;
+      }
+    }
+    S[i].area_for_one /= (double)S[i].students;
+  }
+  cout << endl;
+  for (int i = 0; i < fac.size(); i++) {
+    cout << S[i].fac << "  " << S[i].students << "  " << S[i].area_for_one
+         << endl;
+  }
+
+  delete[] S;
+  delete[] SibSuits;
+}

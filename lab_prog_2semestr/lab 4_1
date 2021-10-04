@@ -1,0 +1,96 @@
+#include <conio.h>
+#include <locale.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+const int n = 5;
+typedef int rown[n];
+
+const int p = 4;
+typedef int rownp[p];
+
+void PrintMas(int n, int *A) {
+  for (int i = 0; i < n; i++) {
+    printf("%d ", A[i]);
+  }
+  printf("\n");
+}
+
+int main() {
+  srand(time(NULL));
+  setlocale(LC_ALL, "Russian");
+  int m;
+  printf("Введите m: ");
+  scanf("%d", &m);
+  rown *B = new rown[m];
+  if (B == NULL) {
+    printf("Не удалось выделить память");
+    return 1;
+  }
+
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      B[i][j] = rand() % 10;
+      printf("%4d", B[i][j]);
+    }
+    puts("\n");
+  }
+
+  int max_i = 0, max_j = 0;
+  int maxl = B[0][0];
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      if (B[i][j] > maxl) {
+        maxl = B[i][j];
+        max_i = i;
+        max_j = j;
+      }
+    }
+  }
+
+  rownp *C = (rownp *)malloc((m - 1) * sizeof(rownp));
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      if (B[i][j] > maxl) {
+        maxl = B[i][j];
+        max_i = i;
+        max_j = j;
+      }
+    }
+  }
+  printf("Максимальный элемент=%d", maxl);
+
+  for (int i = 0; i < m; i++) {
+    if (i < max_i) {
+      for (int j = 0; j < n; j++) {
+        if (j < max_j) {
+          C[i][j] = B[i][j];
+        } else if (j > max_j) {
+          C[i][j - 1] = B[i][j];
+        }
+      }
+    } else if (i > max_i) {
+      for (int j = 0; j < n; j++) {
+        if (j < max_j) {
+          C[i - 1][j] = B[i][j];
+        } else if (j > max_j) {
+          C[i - 1][j - 1] = B[i][j];
+        }
+      }
+    }
+  }
+  puts("\n");
+  for (int i = 0; i < m - 1; i++) {
+    for (int j = 0; j < p; j++) {
+      printf("%4d", C[i][j]);
+    }
+    puts("\n");
+  }
+
+  delete[] B;
+  B=NULL;
+  free(C);
+  C=NULL;
+  return 0;
+}

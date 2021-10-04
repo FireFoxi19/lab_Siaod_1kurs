@@ -1,0 +1,160 @@
+#include <cstdio>
+#include <fstream>
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <vector>
+
+using namespace std;
+const char *filename = "file1.dat";
+const int NRecords = 2;
+
+struct pas {
+  char FIO[10];
+  int occuBag;
+  int weight;
+} t1;
+
+void input() {
+  ofstream out(filename, ios::binary | ios::out);
+  system("clear");
+  for (int i = 0; i < NRecords; i++) {
+    pas tmp;
+    cout << "FIO:";
+    cin.ignore();
+    cin.getline(tmp.FIO, 1000);
+    cout << "Capacity:";
+    cin >> tmp.occuBag;
+    cout << "Weight:";
+    cin >> tmp.weight;
+    out.write((char *)&tmp, sizeof tmp);
+  }
+  out.close();
+}
+
+void add() {
+  ofstream out(filename, ios::binary | ios::app);
+  system("clear");
+  pas tmp;
+  cout << "FIO:";
+  cin.ignore();
+  cin.getline(tmp.FIO, 1000);
+  cout << "Capacity:";
+  cin >> tmp.occuBag;
+  cout << "Weight:";
+  cin >> tmp.weight;
+  out.write((char *)&tmp, sizeof tmp);
+  out.close();
+  cout << endl;
+}
+void find() {
+  ifstream fin(filename, ios::binary);
+  system("clear");
+  vector<pas> tmp_passenger_vector;
+  while (!fin.eof()) {
+    pas tmp_passenger;
+    fin.read((char *)&tmp_passenger, sizeof(tmp_passenger));
+    tmp_passenger_vector.push_back(tmp_passenger);
+  }
+  tmp_passenger_vector.pop_back();
+  fin.close();
+  ofstream fout(filename, ios::binary);
+  for (int i = 0; i < tmp_passenger_vector.size(); i++)
+    if (!(tmp_passenger_vector[i].weight < 10))
+      fout.write((char *)&tmp_passenger_vector[i],
+                 sizeof(tmp_passenger_vector[i]));
+  fout.close();
+}
+void rename() {
+  system("clear");
+  cout << "Enter name: ";
+  char name[1000];
+  cin >> name;
+  cout << "Enter weight: ";
+  int weight;
+  cin >> weight;
+  ifstream fin(filename, ios::binary);
+
+  vector<pas> tmp_passenger_vector;
+  while (!fin.eof()) {
+    pas tmp_passenger;
+    fin.read((char *)&tmp_passenger, sizeof(tmp_passenger));
+    tmp_passenger_vector.push_back(tmp_passenger);
+  }
+  fin.close();
+  tmp_passenger_vector.pop_back();
+  bool found = false;
+  for (auto &passenger : tmp_passenger_vector)
+    if (string(passenger.FIO).find(name) != std::string::npos) {
+      passenger.weight = weight;
+      found = true;
+      break;
+    }
+  if (!found)
+    cout << "RECORD NOT FOUND" << endl << endl;
+  ofstream fout(filename, ios::binary);
+
+  for (auto passenger : tmp_passenger_vector)
+    fout.write((char *)&passenger, sizeof(passenger));
+
+  fout.close();
+}
+
+void print() {
+  char ch;
+  fstream in(filename, ios::binary | ios::in);
+  system("clear");
+  vector<pas> tmp_pas_vector;
+  while (!in.eof()) {
+    pas tmp_passenger;
+    in.read((char *)&tmp_passenger, sizeof(tmp_passenger));
+    tmp_pas_vector.push_back(tmp_passenger);
+  }
+  in.close();
+  tmp_pas_vector.pop_back();
+  for (auto passenger : tmp_pas_vector) {
+    cout << "FIO: " << passenger.FIO << endl;
+    cout << "Capacity: " << passenger.occuBag << endl;
+    cout << "Weight : " << passenger.weight << endl << endl;
+  }
+  ch = getchar();
+}
+
+int main() {
+  char c;
+  std::cout << "Chose your answer:" << std::endl;
+  while (1) {
+    puts("  1 – new file");
+    puts("  2 – file view");
+    puts("  3 – adding a file");
+    puts("  4 – search and delete from file");
+    puts("  5 – change the weight of the passenger's belongings by the given "
+         "surname");
+    puts("  0 - exit");
+    c = getchar();
+    system("clear");
+    switch (c) {
+    case '1':
+      input();
+      break;
+    case '2':
+      print();
+      break;
+    case '3':
+      add();
+      break;
+    case '4':
+      find();
+      print();
+      break;
+    case '5':
+      rename();
+      break;
+    case '0':
+      return 0;
+    default:
+      puts("");
+    }
+  }
+}

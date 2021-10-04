@@ -1,0 +1,16 @@
+#include <math.h>
+#include <stdlib.h>
+#include <iostream>
+
+void function();
+using namespace std;
+int main() { function(); }
+void function() {
+  int n;
+  cin >> n;
+  if (n != 0)  // числа не = 0
+  {
+    function();
+    if (n > 0) cout << n << ' ';
+  }
+}
