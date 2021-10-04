@@ -1,0 +1,25 @@
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+// 3.	Найти и вывести простые числа и  их количество в диапазоне от 2 до n, n
+// ввести с клавиатуры.
+
+int main() {
+  int i, a = 2, b = 0, n, k = 0;
+  printf("enter n");
+  scanf("%d", &n);
+  while (a <= n) {
+    for (i = 2; i <= n; i++) {
+      if (a % i == 0) b++;
+    }
+    if (b == 1) {
+      printf("%d ", a);
+      k++;
+    }
+    a++;
+    b = 0;
+  }
+  printf("quantity=%d ", k);
+  system("PAUSE");
+  return 0;
+}

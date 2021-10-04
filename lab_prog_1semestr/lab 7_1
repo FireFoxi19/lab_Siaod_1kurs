@@ -1,0 +1,36 @@
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+// 1.Вычислить и записать в массив значения функции y=a*x2*sin(x)+b*x+c при
+// изменении x от хнач до хкон с шагом h. Массив значений отсортировать по
+//убыванию методом пузырька и напечатать.
+//     a =2.14;  b= -4.21; c= 3.25; хнач = -4.5, хкон= -33.5, h= 0.5;
+
+int main() {
+  float a = 2.14, b = -4.21, c = 3.25, y, xn = -4.5, xk = -33.5, h = 0.5;
+  int n = abs(abs(xk) - abs(xn)) / h;
+  float mas[n];
+  float x = xn;
+  int i = 0;
+  do {
+    mas[i] = a * x * x * sin(x) + b * x + c;
+    i++;
+    if (x > 0)
+      x += h;
+    else
+      x -= h;
+  } while (x >= xk);
+  for (int i = 0; i < n - 1; i++) {
+    for (int j = n - 2; j >= i; j--) {
+      if (mas[j] < mas[j + 1]) {
+        c = mas[j];
+        mas[j] = mas[j + 1];
+        mas[j + 1] = c;
+      }
+    }
+  }
+  for (int i = 0; i < n; i++) printf("%.2f ", mas[i]);
+  printf("\n ");
+  system("pause");
+  return 0;
+}

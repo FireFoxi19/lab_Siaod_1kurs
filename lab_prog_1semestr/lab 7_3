@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+// 3. Сформировать с помощью датчика случайных чисел в диапазоне [-10,10]
+//    массив из 20 элементов вещественного типа. Вывести его на экран.
+//   Сформировать из положительных элементов массива А массив В. Вывести
+//   массив В
+
+const int N = 20;
+int random(int N) { return rand() % N; }
+main() {
+  system("CLS");
+  int i, k = 0, c = 0, a = -10, b = 10;
+  float A[N];
+  for (i = 0; i < N; i++) A[i] = (float)rand() * (b - a) / RAND_MAX + a;
+  for (i = 0; i < N; i++) {
+    printf(" %2.2f", A[i]);
+    if (A[i] > 0) k++;
+  }
+  float B[k];
+  for (c = 0, i = 0; i < N; i++) {
+    if (A[i] > 0) {
+      B[c] = A[i];
+      c++;
+    }
+  }
+  for (i = 0; i < k; i++) printf(" \n %2.2f", B[i]);
+
+  return 0;
+ }

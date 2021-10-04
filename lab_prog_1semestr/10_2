@@ -1,0 +1,37 @@
+#include <locale.h>
+#include <string.h>
+#include <windows.h>
+
+int main() {
+  SetConsoleCP(1251);
+  SetConsoleOutputCP(1251);
+
+  char stroka[200], str[100][100], word[100], pr[] = " ";
+  char *tmp;
+  int i = 0, j = 0, k, c = 0;
+
+  printf(" Введите строку: ");
+  gets(stroka);
+  tmp = strtok(stroka, pr);
+
+  while (tmp != NULL) {
+    strncpy(str[i], tmp, 100);
+    tmp = strtok(NULL, pr);
+    i++;
+  }
+  for (j = 0; j < i; j++) {
+    c = 0;
+    if (strcmp(str[j], pr) != 0) {
+      for (k = i; k >= j; k--) {
+        if (k == j) strcpy(word, str[j]);
+        if (strcmp(str[j], str[k]) == 0) {
+          strcpy(str[k], pr);
+          c++;
+        }
+        if (k == j) strcpy(str[j], word);
+      }
+      printf("\n %s %d", str[j], c);
+    }
+  }
+  return 0;
+}

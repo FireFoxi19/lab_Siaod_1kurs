@@ -1,0 +1,28 @@
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+int main() {
+  double t, a = 2.14, b = -4.21, c = 3.25, xs = -4.5, xf = -13.5, h = 0.5,
+            ymin = 0, ymax = 0, y = 0;
+  if (xs > xf) {
+    t = xs;
+    xs = xf;
+    xf = t;
+  }
+  y = (a * pow(xs, 2) + b * xs + c) * sin(xs);
+  while (xs <= xf) {
+    y = (a * pow(xs, 2) + b * xs + c) * sin(xs);
+    if (y < ymin) {
+      ymin = y;
+    }
+    if (y > ymax) {
+      ymax = y;
+    }
+
+    xs += h;
+  }
+
+  printf("y1=%5.3f y2=%5.3f \n", ymin, ymax);
+  system("PAUSE");
+  return 0;
+}

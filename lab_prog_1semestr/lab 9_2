@@ -1,0 +1,38 @@
+#include <locale.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+// 2.	Задан двумерный массив NxN вещественных чисел, N=5.
+//Необходимо каждый элемент соответствующей строки разделить на сумму элементов
+//этой же строки
+int const N = 5;
+int random(int N) { return rand() % N; }
+
+int main() {
+  setlocale(LC_ALL, "Rus");
+  srand(time(NULL));
+  int x, i, k, j, sum = 0;
+  float a = 1, b = 20;
+  float A[N][N];
+  for (i = 0; i < N; i++)
+    for (j = 0; j < N; j++) A[i][j] = rand() * (b - a) / RAND_MAX + a;
+  printf("Изначальный массив А\n");
+  for (i = 0; i < N; i++) {
+    for (j = 0; j < N; j++) printf("%4.2f ", A[i][j]);
+    printf("\n");
+  }
+  printf("\n");
+
+  for (i = 0; i < N; i++)
+    for (j = 0; j < N; j++) sum += A[i][j];  //сумма на которую делится строка
+  for (i = 0; i < N; i++)
+    for (j = 0; j < N; j++) A[i][j] = A[i][j] / sum;
+
+  printf("Измененный массив А\n");
+  for (i = 0; i < N; i++) {
+    for (j = 0; j < N; j++) printf("%4.3f ", A[i][j]);
+    printf("\n");
+  }
+  return 0;
+}

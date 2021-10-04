@@ -1,0 +1,30 @@
+#include <locale.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+// 3.	Матрица А имеет размерность 5х5. Найти транспонированную к А матрицу
+// (т.е. поменять местами строки и столбцы).
+
+const int N = 5;
+float random(int r) { return rand() % r; }
+main() {
+  setlocale(LC_ALL, "Rus");
+  int i, j, rand(20), A[N][N], B[N][N], a = 0;
+  for (i = 0; i < N; i++)
+    for (j = 0; j < N; j++) A[i][j] = random(20);
+  printf("Матрица A\n");
+  for (i = 0; i < N; i++) {
+    for (j = 0; j < N; j++) printf("%4d", A[i][j]);
+    printf("\n");
+  }
+  printf("\n");
+  printf("\n");
+  printf("\n");
+  for (i = 0; i < N; i++)
+    for (j = 0; j < N; j++) B[i][j] = A[j][i];
+  printf("Транспонированная матрица A\n");
+  for (i = 0; i < N; i++) {
+    for (j = 0; j < N; j++) printf("%4d", B[i][j]);
+    printf("\n");
+  }
+}

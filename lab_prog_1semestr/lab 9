@@ -1,0 +1,36 @@
+#include <locale.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+    // 1.	Матрица А имеет размерность 10x20. В матрице  поменять местами
+    // 1-ю и 2-ю строки, 3-ю и 4-ю строки, …., 9-ю и 10-ю строки.
+    const int M = 10,
+              N = 20;
+int random(int r) { return rand() % r; }
+main() {
+  setlocale(LC_ALL, "Rus");
+  int i, j, A[M][N], rand(20), a;
+  for (i = 0; i < M; i++)
+    for (j = 0; j < N; j++) A[i][j] = random(20);
+  printf("Матрица A\n");
+  for (i = 0; i < M; i++) {
+    for (j = 0; j < N; j++) printf("%4d", A[i][j]);
+    printf("\n");
+  }
+  printf("\n");
+  printf("\n");
+  printf("\n");
+  for (i = 0; i < M; i = i + 2)
+    for (j = 0; j < N; j++) {
+      a = A[i][j];
+      A[i][j] = A[i + 1][j];
+      A[i + 1][j] = a;
+    }
+  printf("Измененная матрица A\n");
+  for (i = 0; i < M; i++) {
+    for (j = 0; j < N; j++) printf("%4d", A[i][j]);
+    printf("\n");
+  }
+
+  return 0;
+}

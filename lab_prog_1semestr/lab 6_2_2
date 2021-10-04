@@ -1,0 +1,31 @@
+#include <conio.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+// 2. Для значений i=1, 2,..,n вычислить число сочетаний из n по
+// i и занести результаты в массив  С={С1,С2,..,Сn}, используя
+//.Ci= n!/(i!(n - i)!)  Число n>0 ввести с клавиатуры. Полученный массив вывести
+//на экран.
+
+int main() {
+  system("CLS");
+  int N;
+  int a = 1, b = 1, c = 1, d = 1, i, C[N], s = 1, factn = 1;
+  cin >> N;
+  for (i = 1; i < N; i++) {
+    factn *= i;
+  }
+  for (i = 1; i < N; i++) {
+    while (c <= (N - i)) {
+      a = a * c;
+      c++;
+    }
+    s = s * i;
+    C[i] = factn / (s * a);
+    a = 1;
+    c = 1;
+  }
+  cout << C[i];
+  getch();
+}

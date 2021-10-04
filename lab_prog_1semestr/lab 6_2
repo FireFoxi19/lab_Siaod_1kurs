@@ -1,0 +1,24 @@
+#include <malloc.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+// 2. Для значений i=1, 2,..,n вычислить число сочетаний из n по
+// i и занести результаты в массив  С={С1,С2,..,Сn}, используя
+// Ci= n!/(i!(n - i)!).  Число n>0 ввести с клавиатуры. Полученный массив
+// вывести на экран.
+
+int f(int a) {
+  int b = 1;
+  for (int i = 2; i <= a; i++) b *= i;
+  return b;
+}
+int main() {
+  int n;
+  scanf("%d", &n);
+  int* C = (int*)malloc(sizeof(int) * n);
+  for (int i = 1; i < n; i++) {
+    C[i] = f(n) / (f(i) * f(n - i));
+    printf("%d ", C[i]);
+  }
+  return 0;
+}

@@ -1,0 +1,93 @@
+#include <conio.h>
+#include <graphics.h>
+#include <stdio.h>
+#include <windows.h>
+void Gorilla() {
+  circle(100, 100, 70);
+  circle(183, 75, 15);
+  circle(17, 75, 15);
+  circle(130, 77, 12);
+  circle(70, 77, 12);
+  line(100, 80, 100, 120);
+  arc(100, 135, 180, 360, 25);
+}
+int main() {
+  int MyGorilla[100006];
+  initwindow(1000, 800);
+  while (1) {
+    cleardevice();
+    setcolor(15);
+    outtextxy(200, 100,
+              "1.Нажмите 1, чтобы перйти в режим свободного движения");
+    outtextxy(200, 150,
+              "2.Нажмите 2, чтобы перейти в режим управлениия  с клавиатуры");
+    outtextxy(200, 200, "0.Нажмите ESC, чтобы выйти");
+    int c = getch();
+    int x = 500, y = 400;
+    int d = 10;
+    switch (c) {
+      case 27: {
+        closegraph();
+        break;
+      }
+      case 49: {
+        int dx = 5, dy = 5;
+        cleardevice();
+        Gorilla();
+        getimage(1, 20, 201, 170, MyGorilla);
+        for (x = 1, y = 1; !kbhit(); x += dx, y += dy) {
+          putimage(x, y, MyGorilla, 1);
+          delay(20);
+          cleardevice();
+          if (y > 620) dy = -rand() % 10 + 1;
+          if (y < 0) dy = rand() % 10 + 1;
+          if (x > 780) dx = -5;
+          if (x < 5) dx = 5;
+        }
+        cleardevice();
+        getch();
+        continue;
+        break;
+      }
+      case 50: {
+        cleardevice();
+        Gorilla();
+        getimage(1, 20, 201, 170, MyGorilla);
+        cleardevice();
+        x = 500;
+        y = 400;
+        int code;
+        while (true) {
+          putimage(x, y, MyGorilla, 1);
+          code = getch();
+          cleardevice();
+          if (code == 27) break;
+          switch (code) {
+            case 72: {
+              if (y < 0) break;
+              y -= d;
+              break;
+            }
+            case 80: {
+              if (y > 620) break;
+              y += d;
+              break;
+            }
+            case 77: {
+              if (x > 780) break;
+              x += d;
+              break;
+            }
+            case 75: {
+              if (x < 5) break;
+              x -= d;
+              break;
+            }
+            default: { break; }
+          }
+        }
+        continue;
+      }
+    }
+  }		
+}
